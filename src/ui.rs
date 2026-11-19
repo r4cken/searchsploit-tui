@@ -20,7 +20,7 @@ pub fn draw(frame: &mut Frame, app: &mut App) {
 
     let main_panes = Layout::default()
         .direction(Direction::Horizontal)
-        .constraints([Constraint::Percentage(40), Constraint::Percentage(60)])
+        .constraints([Constraint::Percentage(45), Constraint::Percentage(55)])
         .split(vertical[1]);
 
 

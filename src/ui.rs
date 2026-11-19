@@ -107,7 +107,7 @@ pub fn draw(frame: &mut Frame, app: &mut App) {
     // 4. Bottom Status Bar
     let status_line = Line::from(vec![
         Span::styled(format!(" {} ", app.status_msg), Style::default().fg(Color::Black).bg(Color::Green)),
-        Span::raw("  Tab or ←/→ or h/l: Switch Pane Focus | j/k: Nav/Scroll | y: Copy Path | m: Mirror | q: Quit"),
+        Span::raw("  Tab or ←/→ or h/l: Switch Pane Focus | ↑/↓ or j/k: Nav/Scroll | y: Copy Path | m: Mirror | q: Quit"),
     ]);
 
     frame.render_widget(Paragraph::new(status_line), vertical[2]);

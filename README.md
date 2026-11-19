@@ -39,7 +39,7 @@ The built binary can be found at `target/release/searchsploit-tui`. Place it som
 |---|---|
 | `ESC` | exit search mode
 | `/` or `i` | enter search mode where you specify the search query. Press enter to search |
-| `j` / `k` | next/previous entry, or scroll up/down in the preview pane when it has focus |
+| `j` / `k`, up/down arrow keys | next/previous entry, or scroll up/down in the preview pane when it has focus |
 | `Tab`, `h`/`l`, left/right arrow keys | switch focus between the search results and preview pane |
 | `y` | copy the path to the selected exploit on disk to the clipboard |
 | `m` | mirror a selected exploit to the current directory |

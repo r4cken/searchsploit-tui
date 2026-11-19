@@ -2,7 +2,7 @@ use arboard::Clipboard;
 use ratatui::{
     style::{Color, Style},
     text::{Line, Span, Text},
-    widgets::{TableState},
+    widgets::TableState,
 };
 
 use std::{
@@ -62,23 +62,25 @@ impl App {
 
         thread::spawn(move || {
             while let Ok(query) = search_rx.recv() {
-                let output = Command::new("searchsploit")
-                    .args(["-j", &query])
-                    .output();
+                let output = Command::new("searchsploit").args(["-j", &query]).output();
 
                 let msg = match output {
                     Ok(out) => match serde_json::from_slice::<SearchSploitOutput>(&out.stdout) {
                         Ok(parsed) => WorkerMessage::SearchResults(Ok(parsed.results)),
-                        Err(e) => WorkerMessage::SearchResults(Err(format!("JSON parse error: {e}"))),
+                        Err(e) => {
+                            WorkerMessage::SearchResults(Err(format!("JSON parse error: {e}")))
+                        }
                     },
-                    Err(e) => WorkerMessage::SearchResults(Err(format!("Failed to run searchsploit: {e}"))),
+                    Err(e) => WorkerMessage::SearchResults(Err(format!(
+                        "Failed to run searchsploit: {e}"
+                    ))),
                 };
 
                 if worker_tx.send(msg).is_err() {
                     break;
                 }
             }
-	});
+        });
 
         let syntax_set = SyntaxSet::load_defaults_newlines();
         let theme_set = ThemeSet::load_defaults();
@@ -120,8 +122,8 @@ impl App {
     }
 
     pub fn scroll_preview(&mut self, delta: i32) {
-        self.preview_scroll = ((self.preview_scroll as i32 + delta)
-            .clamp(0, self.preview_max_scroll as i32)) as u16;
+        self.preview_scroll =
+            ((self.preview_scroll as i32 + delta).clamp(0, self.preview_max_scroll as i32)) as u16;
     }
 
     pub fn poll_worker(&mut self) {
@@ -183,7 +185,7 @@ impl App {
                     lines.push(Line::from(line.trim_end_matches(['\r', '\n']).to_string()));
                 }
             }
-	}
+        }
 
         Text::from(lines)
     }
@@ -202,11 +204,13 @@ impl App {
                     }
                 }
             }
-	}
+        }
     }
 
     pub fn selected_exploit(&self) -> Option<&Exploit> {
-        self.table_state.selected().and_then(|i| self.results.get(i))
+        self.table_state
+            .selected()
+            .and_then(|i| self.results.get(i))
     }
 
     pub fn copy_path_to_clipboard(&mut self) {
@@ -216,7 +220,7 @@ impl App {
                 Ok(_) => self.status_msg = format!("Copied path: {path}"),
                 Err(e) => self.status_msg = format!("Clipboard error: {e}"),
             }
-	}
+        }
     }
 
     pub fn mirror_exploit(&mut self) {
@@ -232,7 +236,7 @@ impl App {
                 }
                 Err(e) => self.status_msg = format!("Failed to execute mirror: {e}"),
             }
-	}
+        }
     }
 
     pub fn next_row(&mut self) {

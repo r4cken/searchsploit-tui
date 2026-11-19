@@ -3,10 +3,10 @@ mod data;
 mod ui;
 
 use crossterm::event::{self, Event, KeyCode, KeyEventKind, KeyModifiers};
-use ratatui::{DefaultTerminal};
+use ratatui::DefaultTerminal;
 use std::{io, time::Duration};
 
-use app::{App, InputMode, Focus};
+use app::{App, Focus, InputMode};
 
 fn main() -> std::io::Result<()> {
     let mut terminal = ratatui::init();
@@ -43,21 +43,21 @@ fn run(terminal: &mut DefaultTerminal) -> io::Result<()> {
                     },
                     InputMode::Normal => match key.code {
                         _ if key.modifiers.contains(KeyModifiers::CONTROL) => {}
-			KeyCode::Char('q') => return Ok(()),
+                        KeyCode::Char('q') => return Ok(()),
                         KeyCode::Char('/') | KeyCode::Char('i') => {
                             app.input_mode = InputMode::Insert;
                         }
-			KeyCode::Tab => app.toggle_focus(),
-			KeyCode::Left | KeyCode::Char('h') => app.focus = Focus::Results,
-			KeyCode::Right | KeyCode::Char('l') => app.focus = Focus::Preview,
+                        KeyCode::Tab => app.toggle_focus(),
+                        KeyCode::Left | KeyCode::Char('h') => app.focus = Focus::Results,
+                        KeyCode::Right | KeyCode::Char('l') => app.focus = Focus::Preview,
                         KeyCode::Down | KeyCode::Char('j') => match app.focus {
-			    Focus::Results => app.next_row(),
-			    Focus::Preview => app.scroll_preview(5),
-			}
+                            Focus::Results => app.next_row(),
+                            Focus::Preview => app.scroll_preview(5),
+                        },
                         KeyCode::Up | KeyCode::Char('k') => match app.focus {
-			    Focus::Results => app.prev_row(),
-			    Focus::Preview => app.scroll_preview(-5),
-			}
+                            Focus::Results => app.prev_row(),
+                            Focus::Preview => app.scroll_preview(-5),
+                        },
                         KeyCode::Char('y') => app.copy_path_to_clipboard(),
                         KeyCode::Char('m') => app.mirror_exploit(),
                         _ => {}

@@ -1,12 +1,12 @@
 use ratatui::{
+    Frame,
     layout::{Constraint, Direction, Layout},
     style::{Color, Modifier, Style},
     text::{Line, Span},
     widgets::{Block, Borders, Paragraph, Row, Table, Wrap},
-    Frame,
 };
 
-use crate::app::{App, InputMode, Focus};
+use crate::app::{App, Focus, InputMode};
 
 pub fn draw(frame: &mut Frame, app: &mut App) {
     let vertical = Layout::default()
@@ -23,11 +23,16 @@ pub fn draw(frame: &mut Frame, app: &mut App) {
         .constraints([Constraint::Percentage(45), Constraint::Percentage(55)])
         .split(vertical[1]);
 
-
     // 1. Search Bar
     let (search_title, border_color) = match app.input_mode {
-        InputMode::Insert => (" Search [INSERT] (Enter: Run search, Esc: normal mode) ", Color::Cyan),
-        InputMode::Normal => (" Search [NORMAL] (Press '/' or 'i' to edit) ", Color::DarkGray),
+        InputMode::Insert => (
+            " Search [INSERT] (Enter: Run search, Esc: normal mode) ",
+            Color::Cyan,
+        ),
+        InputMode::Normal => (
+            " Search [NORMAL] (Press '/' or 'i' to edit) ",
+            Color::DarkGray,
+        ),
     };
 
     let search_bar = Paragraph::new(app.query.as_str()).block(
@@ -56,8 +61,8 @@ pub fn draw(frame: &mut Frame, app: &mut App) {
                 e.exploit_type.clone(),
                 e.title.clone(),
             ])
-	})
-	.collect();
+        })
+        .collect();
 
     let table = Table::new(
         rows,
@@ -66,18 +71,27 @@ pub fn draw(frame: &mut Frame, app: &mut App) {
             Constraint::Length(10),
             Constraint::Length(8),
             Constraint::Min(15),
-        ]
+        ],
     )
-    .header(Row::new(vec!["EDB-ID", "Platform", "Type", "Title"])
-    .style(Style::default().add_modifier(Modifier::BOLD).fg(Color::Green)))
+    .header(
+        Row::new(vec!["EDB-ID", "Platform", "Type", "Title"]).style(
+            Style::default()
+                .add_modifier(Modifier::BOLD)
+                .fg(Color::Green),
+        ),
+    )
     .block(
         Block::default()
             .borders(Borders::ALL)
             .border_style(Style::default().fg(results_border))
-            .title(" Exploits ")
+            .title(" Exploits "),
     )
-    .row_highlight_style(Style::default().fg(Color::White).bg(Color::DarkGray)
-    .add_modifier(Modifier::BOLD));
+    .row_highlight_style(
+        Style::default()
+            .fg(Color::White)
+            .bg(Color::DarkGray)
+            .add_modifier(Modifier::BOLD),
+    );
 
     frame.render_stateful_widget(table, main_panes[0], &mut app.table_state);
 
@@ -87,15 +101,15 @@ pub fn draw(frame: &mut Frame, app: &mut App) {
         .map(|e| format!(" Preview: {} ", e.path))
         .unwrap_or_else(|| " Preview ".to_string());
 
-
     let preview = Paragraph::new(app.preview_text.clone())
         .wrap(Wrap { trim: false })
         .scroll((app.preview_scroll, 0))
         .block(
-              Block::default()
-              .borders(Borders::ALL)
-              .border_style(Style::default().fg(preview_border))
-              .title(preview_title));
+            Block::default()
+                .borders(Borders::ALL)
+                .border_style(Style::default().fg(preview_border))
+                .title(preview_title),
+        );
     // Wrap-aware scroll bound: line_count adds the block's borders, which cancel
     // against the full pane height.
     app.preview_max_scroll = preview
@@ -106,8 +120,13 @@ pub fn draw(frame: &mut Frame, app: &mut App) {
 
     // 4. Bottom Status Bar
     let status_line = Line::from(vec![
-        Span::styled(format!(" {} ", app.status_msg), Style::default().fg(Color::Black).bg(Color::Green)),
-        Span::raw("  Tab or ←/→ or h/l: Switch Pane Focus | ↑/↓ or j/k: Nav/Scroll | y: Copy Path | m: Mirror | q: Quit"),
+        Span::styled(
+            format!(" {} ", app.status_msg),
+            Style::default().fg(Color::Black).bg(Color::Green),
+        ),
+        Span::raw(
+            "  Tab or ←/→ or h/l: Switch Pane Focus | ↑/↓ or j/k: Nav/Scroll | y: Copy Path | m: Mirror | q: Quit",
+        ),
     ]);
 
     frame.render_widget(Paragraph::new(status_line), vertical[2]);

@@ -1,8 +1,8 @@
 # searchsploit-tui
 
-searchsploit-tui is a terminal user interface for searchsploit written in Rust using ratatui.
+searchsploit-tui is a terminal user interface for Searchsploit written in Rust using Ratatui.
 
-The tool queries a local copy of the exploit-db database and presents a list of exploits matching your query. A preview pane shows the exploit source code with syntax highlighting and
+The tool queries a local copy of the exploitdb database and presents a list of exploits matching your query. A preview pane shows the exploit source code with syntax highlighting and
 you can copy any selected exploit to your current working directory.
 
 <img width="1913" height="1035" alt="2026-11-19-101223_hyprshot" src="https://github.com/user-attachments/assets/e922a585-9944-43f5-be16-56c4d201e235" />

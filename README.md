@@ -8,7 +8,7 @@ you can copy any selected exploit to your current working directory.
 <img width="1913" height="1035" alt="2026-11-19-101223_hyprshot" src="https://github.com/user-attachments/assets/e922a585-9944-43f5-be16-56c4d201e235" />
 
 ## Prerequisites
-Requires Linux, Rust 1.85+ (edition 2024), and a local copy of the Exploit Database. Searchsploit is not distributed with this program.
+Requires Linux, Rust 1.85+ (edition 2024), and a local copy of the exploit database. Searchsploit is not distributed with this program.
 
 Clone the exploit database repository and put searchsploit on your PATH
 ```bash

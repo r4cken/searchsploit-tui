@@ -10,7 +10,7 @@ you can copy any selected exploit to your current working directory.
 ## Prerequisites
 Requires Linux, Rust 1.85+ (edition 2024), and a local copy of the exploit database. Searchsploit is not distributed with this program.
 
-Clone the exploit database repository and put searchsploit on your PATH
+Clone the exploit database repository and put Searchsploit on your PATH
 ```bash
 sudo git clone https://gitlab.com/exploit-database/exploitdb.git /opt/exploitdb
 sudo ln -sf /opt/exploitdb/searchsploit /usr/local/bin/searchsploit
